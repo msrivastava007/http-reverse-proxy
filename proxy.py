@@ -61,7 +61,7 @@ class ReverseProxy:
         backend['connections'] += 1
         
         try:
-            request_body = request.content if request.can_read_body else None
+            request_body = request.content if request.has_body else None
             
             async with self.session.request(
                 method=request.method,

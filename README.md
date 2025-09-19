@@ -1,6 +1,6 @@
 # HTTP Reverse Proxy
 
-A custom HTTP reverse proxy implementation
+A custom HTTP reverse proxy implementation built without third-party proxy libraries, using only standard networking utilities (aiohttp for HTTP client functionality).
 
 ### Prerequisites
 - Python 3.9+
@@ -65,7 +65,11 @@ The primary goal was to create a I/O-bound service that correctly implements the
 
 For a proxy, the vast majority of time is spent waiting on network I/O (waiting for the client to send data, waiting for the backend to respond). A synchronous, thread-per-request model would not scale well. `asyncio` provides a single-threaded, event-driven concurrency model that can handle thousands of simultaneous connections. `aiohttp` was used as the underlying toolkit for its asyncio-native server and client implementations.
 
-This implementation avoids that by piping the request content stream (`request.content`) directly to the outbound request, ensuring that memory usage remains low and constant regardless of payload size.
+### Full Streaming Architecture
+
+I implemented a bidirectional streaming without buffering. This prevents memory exhaustion with large files and is the key difference between a toy implementation and a production-ready proxy.
+
+The proxy maintains constant memory usage remains low and constant regardless of payload size by streaming data directly using (`request.content`) through chunks rather than loading entire payloads into memory.
 
 ### Request Lifecycle
 
@@ -140,10 +144,14 @@ if not is_jwt_valid(auth_header):
 
 ## Resources Used
 
-- **Python asyncio documentation  and other google docs**: For understanding async programming patterns and best practices for concurrent I/O operations
-- **aiohttp documentation and other google docs**: Specifically for HTTP client functionality - used only for making requests to backend servers
-- **Python standard library documentation and stackoverflow**: For modules like `logging`, `json`, `urllib.parse`, and error handling patterns
-- **AI tool**: Used copilot for debugging and writing tests
+- **Python asyncio documentation**: Core async patterns and event loop management
+- **aiohttp documentation**: HTTP client/server functionality (not as a proxy library)
+- **GitHub Copilot**: Used for:
+  - Autocomplete suggestions for boilerplate code
+  - Test case generation
+  - Debugging async/await issues
+  - Documentation formatting
+- **Stack Overflow**: Error handling patterns and asyncio best practices
 
 
 
