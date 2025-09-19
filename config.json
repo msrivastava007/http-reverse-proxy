@@ -1,0 +1,12 @@
+{
+    "backends": [
+        {
+            "id": "backend1",
+            "url": "http://localhost:3001"
+        },
+        {
+            "id": "backend2",
+            "url": "http://localhost:3002"
+        }
+    ]
+}
