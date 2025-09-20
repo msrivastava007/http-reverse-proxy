@@ -11,8 +11,8 @@ First, clone the repository and set up the environment:
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
-cd python-reverse-proxy
+git clone https://github.com/msrivastava007/http-reverse-proxy.git
+  cd http-reverse-proxy
 
 
 # Install dependencies
